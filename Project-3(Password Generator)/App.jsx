@@ -53,6 +53,11 @@ export default function Index() {
     
   }
 
+    // characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" (62 chars)
+
+// passwordLength = 10 → so loop runs 10 times
+
+// result = "" initially
   const createPassword = (characters: string, passwordLength: number) => {
     let result = ''
     for (let i = 0; i < passwordLength; i++) {
