@@ -1,11 +1,12 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 // Form validation
-import * as Yup from 'yup'
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 // YOUTUBE:
 const PasswordSchema = Yup.object().shape({
   passwordLength: Yup.number()
@@ -14,7 +15,7 @@ const PasswordSchema = Yup.object().shape({
   .required('Length is required')
   
 })
-export default function App() {
+export default function Index() {
 
   const [password, setPassword] = useState('')
   const [isPassGenerated, setIsPassGenerated] = useState(false)
@@ -24,7 +25,7 @@ export default function App() {
   const [numbers, setNumbers] = useState(false)
   const [symbols, setSymbols] = useState(false)
 
-  const generatePasswordString = (passwordLength) => {
+  const generatePasswordString = (passwordLength: number) => {
     let characterList = '';
 
     const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -52,14 +53,13 @@ export default function App() {
     
   }
 
-  const createPassword = (characters, passwordLength) => {
+  const createPassword = (characters: string, passwordLength: number) => {
     let result = ''
     for (let i = 0; i < passwordLength; i++) {
       const characterIndex = Math.round(Math.random() * characters.length)
       result += characters.charAt(characterIndex)
     }
     return result
-    console.log("hitesh");
     
   }
 
@@ -119,7 +119,7 @@ export default function App() {
          <View style={styles.inputWrapper}>
           <Text style={styles.heading}>Include lowercase</Text>
           <BouncyCheckbox
-          disableBuiltInState
+          useBuiltInState
           isChecked={lowerCase}
           onPress={() => setLowerCase(!lowerCase)}
           fillColor="#29AB87"
@@ -128,7 +128,7 @@ export default function App() {
          <View style={styles.inputWrapper}>
                   <Text style={styles.heading}>Include Uppercase letters</Text>
                   <BouncyCheckbox
-                    disableBuiltInState
+                    useBuiltInState
                     isChecked={upperCase}
                     onPress={() => setupperCase(!upperCase)}
                     fillColor="#FED85D"
@@ -137,7 +137,7 @@ export default function App() {
                 <View style={styles.inputWrapper}>
                   <Text style={styles.heading}>Include Numbers</Text>
                   <BouncyCheckbox
-                    disableBuiltInState
+                    useBuiltInState
                     isChecked={numbers}
                     onPress={() => setNumbers(!numbers)}
                     fillColor="#C9A0DC"
@@ -146,7 +146,7 @@ export default function App() {
                 <View style={styles.inputWrapper}>
                   <Text style={styles.heading}>Include Symbols</Text>
                   <BouncyCheckbox
-                    disableBuiltInState
+                    useBuiltInState
                     isChecked={symbols}
                     onPress={() => setSymbols(!symbols)}
                     fillColor="#FC80A5"
