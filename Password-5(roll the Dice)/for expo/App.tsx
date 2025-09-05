@@ -1,43 +1,85 @@
-import React, { useState } from 'react';
-import type { JSX } from 'react';
-import { StyleSheet, Text, View, Image, ImageSourcePropType, Pressable } from 'react-native';
-// ✅ Correct for Expo Go
+
+import React, {useState, JSX} from 'react';
+import type {PropsWithChildren} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ImageSourcePropType,
+  Pressable
+} from 'react-native';
 import * as Haptics from "expo-haptics";
 
-// Dice images mapped dynamically
-const diceImages: Record<number, ImageSourcePropType> = {
-  1: require("../assets/images/One.png"),
-  2: require("../assets/images/Two.png"),
-  3: require("../assets/images/Three.png"),
-  4: require("../assets/images/Four.png"),
-  5: require("../assets/images/Five.png"),
-  6: require("../assets/images/Six.png"),
+import DiceOne from '../assets/One.png'
+import DiceTwo from '../assets/Two.png'
+import DiceThree from '../assets/Three.png'
+import DiceFour from '../assets/Four.png'
+import DiceFive from '../assets/Five.png'
+import DiceSix from '../assets/Six.png'
+
+type DiceProps = PropsWithChildren<{
+  imageUrl: ImageSourcePropType
+}>
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false
 };
 
+const Dice = ({imageUrl}: DiceProps):JSX.Element => {
+  return (
+    <View>
+      <Image style={styles.diceImage} source={imageUrl} />
+    </View>
+  )
+}
 
-type DiceProps = {
-  imageUrl: ImageSourcePropType;
-};
-
-const Dice = ({ imageUrl }: DiceProps): JSX.Element => (
-  <Image style={styles.diceImage} source={imageUrl} />
-);
-
-export default function Index(): JSX.Element {
-  const [diceNumber, setDiceNumber] = useState(1);
+function App(): JSX.Element {
+  const [diceImage, setDiceImage] = useState<ImageSourcePropType>(DiceOne)
 
   const rollDiceOnTap = () => {
-    const randomNumber = Math.floor(Math.random() * 6) + 1;
-    setDiceNumber(randomNumber);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    let randomNumber = Math.floor(Math.random() * 6) + 1;
 
-  };
+    switch (randomNumber) {
+      case 1:
+        setDiceImage(DiceOne)
+        break;
+      case 2:
+        setDiceImage(DiceTwo)
+        break;
+      case 3:
+        setDiceImage(DiceThree)
+        break;
+      case 4:
+        setDiceImage(DiceFour)
+        break;
+      case 5:
+        setDiceImage(DiceFive)
+        break;
+      case 6:
+        setDiceImage(DiceSix)
+        break;
+    
+      default:
+        setDiceImage(DiceOne)
+        break;
+    }
+
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+  }
 
   return (
     <View style={styles.container}>
-      <Dice imageUrl={diceImages[diceNumber]} />
-      <Pressable onPress={rollDiceOnTap} style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}>
-        <Text style={styles.rollDiceBtnText}>Roll the Dice</Text>
+      <Dice imageUrl={diceImage} />
+      <Pressable
+      onPress={rollDiceOnTap}
+      >
+        <Text
+        style={styles.rollDiceBtnText}
+        >
+        Roll the dice
+        </Text>
       </Pressable>
     </View>
   );
@@ -46,29 +88,28 @@ export default function Index(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1b1b1b',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#FFF2F2',
+  },
+  diceContainer: {
+    margin: 12,
   },
   diceImage: {
     width: 200,
     height: 200,
-    marginBottom: 30,
-  },
-  button: {
-    backgroundColor: '#5DA3FA',
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-  },
-  buttonPressed: {
-    backgroundColor: '#4A8DE8',
   },
   rollDiceBtnText: {
-    color: '#fff',
-    fontWeight: '700',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: '#E5E0FF',
     fontSize: 16,
+    color: '#8EA7E9',
+    fontWeight: '700',
     textTransform: 'uppercase',
-    textAlign: 'center',
   },
 });
+
+export default App;
