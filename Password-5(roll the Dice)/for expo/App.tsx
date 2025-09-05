@@ -14,10 +14,6 @@ const diceImages: Record<number, ImageSourcePropType> = {
   6: require("../assets/images/Six.png"),
 };
 
-const options = {
-  enableVibrateFallback: true,
-  ignoreAndroidSystemSettings: false,
-};
 
 type DiceProps = {
   imageUrl: ImageSourcePropType;
